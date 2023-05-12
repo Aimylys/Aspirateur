@@ -1,21 +1,35 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}{{parent()}} Inscription {% endblock %}
 
 {% block body %}
-    {% for flash_error in app.flashes('verify_email_error') %}
-        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-    {% endfor %}
 
-    <h1>Register</h1>
+<h1 class="text-center text-primary mt-4 pt-4 display-1 fw-bold">
+			Inscription </h1>
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+<div class="row justify-content-center">
+		<div class="col-12 col-md-6 bg-white p-4 m-0 text-primary">
+             {% for flash_error in app.flashes('verify_email_error') %}
+                  <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+             {% endfor %}
 
-        <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+
+              {{ form_start(registrationForm) }}
+                  {{ form_row(registrationForm.email) }}
+                  {{ form_row(registrationForm.plainPassword, {
+                     label: 'Mot de passe'
+              }) }}<br>
+                   {{ form_row(registrationForm.agreeTerms, {label: 'Acceptez les conditions dutilisations'}) }}
+
+            <div class="text-center">
+              <button type="submit" class="btn bg-primary text-white m-4">Inscription</button>
+                {{ form_end(registrationForm) }}
+            </div>
+      <div class="text-center">
+				 <a href="{{path('app_login')}}">  
+                     	Vous avez déjà un compte?   
+                </a>
+					 </div>
+    </div>
+ </div>
 {% endblock %}

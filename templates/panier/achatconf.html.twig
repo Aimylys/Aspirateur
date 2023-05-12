@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{parent()}}AchatConfirm{% endblock %}
+
+{% block body %}
+
+<br><br><br>
+    <h1 class="text-center text-primary mt-4 pt-4 display-3 fw-bold"> Merci !!!</h1>
+    <br>
+
+    <div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-8 text-center">
+          <h2>Merci d'avoir confirmé l'achat !!!</h2><br>
+          <h3>Nous vous remercions pour votre confiance et votre fidélité.</h3><br><br>
+
+    <div class="text-center  ">
+      	<a href="{{path('index')}}">
+	      <button class="btn btn-primary m-auto col-3 mt-0 mb-2 mx-0" > 
+        Retourner à la page d'accueil </button>
+        </a>
+    </div>
+
+{% endblock %}

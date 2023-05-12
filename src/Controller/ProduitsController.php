@@ -11,7 +11,7 @@ use App\Form\ModifProduitsType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class ProduitsController extends AbstractController
 {
@@ -34,7 +34,7 @@ class ProduitsController extends AbstractController
     } 
     //route pour afficher les contacts un par un
     #[Route('/modif-produits/{id}', name: 'modif-produits')]
-    public function ModifProduitsController(EntityManagerInterface $entityManagerInterface,Request $request): Response
+    public function ModifProduitsController(EntityManagerInterface $entityManagerInterface,Request $request, SluggerInterface $slugger): Response
     {
         $id=$request->get('id');
         $repoProduits = $entityManagerInterface->getRepository(Produits::class);
@@ -44,6 +44,20 @@ class ProduitsController extends AbstractController
         if($request->isMethod('POST')){
             $form->handleRequest($request);
             if ($form->isSubmitted()&&$form->isValid()){
+                $image = $form->get('image')->getData();
+                if($image){
+                    $nomFichier = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
+                    $nomFichier = $slugger->slug($nomFichier);
+                    $nomFichier = $nomFichier.'-'.uniqid().'.'.$image->guessExtension();
+                    try{
+                        $image->move($this->getParameter('file_directory'), $nomFichier);
+                        $this->addFlash('notice', 'Image envoyée');
+                        $produits->setImage($nomFichier);
+                    }
+                    catch(FileException $e){
+                        $this->addFlash('notice', 'Erreur d\'envoi');
+                    }
+                }
               
                 $entityManagerInterface->persist($produits);
                 $entityManagerInterface->flush();
@@ -53,6 +67,7 @@ class ProduitsController extends AbstractController
               
             }
         }
+
 
         return $this->render('produits/modif-produits.html.twig', [
            'modif' => $produits,
@@ -80,7 +95,7 @@ class ProduitsController extends AbstractController
     }
 
     #[Route('/ajout-produits', name: 'ajout-produits')]
-    public function AjoutProduits(EntityManagerInterface $entityManagerInterface,Request $request): Response
+    public function AjoutProduits(EntityManagerInterface $entityManagerInterface,Request $request, SluggerInterface $slugger): Response
     {
         $produits = new Produits();
         $form = $this->createForm(ProduitsType::class, $produits);
@@ -88,6 +103,20 @@ class ProduitsController extends AbstractController
         if($request->isMethod('POST')){
             $form->handleRequest($request);
             if ($form->isSubmitted()&&$form->isValid()){
+                $image = $form->get('image')->getData();
+                if($image){
+                    $nomFichier = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
+                    $nomFichier = $slugger->slug($nomFichier);
+                    $nomFichier = $nomFichier.'-'.uniqid().'.'.$image->guessExtension();
+                    try{
+                        $image->move($this->getParameter('file_directory'), $nomFichier);
+                        $this->addFlash('notice', 'Image envoyée');
+                        $produits->setImage($nomFichier);
+                    }
+                    catch(FileException $e){
+                        $this->addFlash('notice', 'Erreur d\'envoi');
+                    }
+                }
               
                 $entityManagerInterface->persist($produits);
                 $entityManagerInterface->flush();
@@ -100,6 +129,15 @@ class ProduitsController extends AbstractController
 
         return $this->render('produits/ajout-produits.html.twig', [
            'form' => $form->createView()
+        ]);
+    }
+    #[Route('produits/infoproduit{id}', name: 'infoproduit')]
+    public function infoproduit(Request $request,int $id): Response
+    {
+        $entityManager= $this->getDoctrine()->getManager();
+        $product = $entityManager->getRepository(Produits::class)->find($id);;
+        return $this->render('produits/infoproduit.html.twig', [
+            'produits'=>$product
         ]);
     }
 }

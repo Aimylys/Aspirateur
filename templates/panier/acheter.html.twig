@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{parent()}}Acheter
+{% endblock %}
+
+{% block body %}
+	<div class='col-10 '>
+		<a href="{{path('index')}}">
+			<button class="btn ">
+				<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-backspace-fill " viewbox="0 0 16 16">
+					<path d="M15.683 3a2 2 0 0 0-2-2h-7.08a2 2 0 0 0-1.519.698L.241 7.35a1 1 0 0 0 0 1.302l4.843 5.65A2 2 0 0 0 6.603 15h7.08a2 2 0 0 0 2-2V3zM5.829 5.854a.5.5 0 1 1 .707-.708l2.147 2.147 2.146-2.147a.5.5 0 1 1 .707.708L9.39 8l2.146 2.146a.5.5 0 0 1-.707.708L8.683 8.707l-2.147 2.147a.5.5 0 0 1-.707-.708L7.976 8 5.829 5.854z"/>
+				</svg>
+			</button>
+		</a>
+	</div>
+	<div class="container-fluid">
+		<div class="row justify-content-center">
+			<div class="col-12 col-md-8 bg-white p-4 m-0 text-primary">
+				<div class="table-responsive">
+					<table class="table table-hover">
+
+
+						<thead>
+							<tr class="fw-bold text-primary">
+								<th scope="col">Désignation</th>
+								<th scope="col">Prix</th>
+							</tr>
+						</thead>
+						<tr>
+							<td>{{ produits.nom }}</td>
+							<td>{{ produits.prix }}</td>
+						</tr>
+					</table>
+					<div class="text-center  ">
+						<a href="{{path('achatconf')}}">
+							<button class="btn btn-primary m-auto col-2 mt-0 mb-2 mx-0">
+								Acheter
+							</button>
+						</a>
+					</div>
+				{% endblock %}

@@ -16,6 +16,7 @@ class FavorisController extends AbstractController
     public function Favoris(EntityManagerInterface $entityManagerInterface,Request $request): Response
     {
         $id=$request->get('id');
+        if(isset($id)){
         $action = $request->get('action');
         $produits = $entityManagerInterface->getRepository(Produits::class)->find($id);
 
@@ -25,7 +26,7 @@ class FavorisController extends AbstractController
         }      
                 $entityManagerInterface->persist($this->getUser());
                 $entityManagerInterface->flush();
-                return $this->redirectToRoute('index');
-       
+        }
+        return $this->redirectToRoute('index');
     }
 }

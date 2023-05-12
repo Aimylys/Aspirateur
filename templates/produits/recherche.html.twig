@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{parent()}}Produits{% endblock %}
+
+{% block body %}
+	<div class="container-fluid">
+		<h1 class="text-center text-primary mt-4 pt-4 fw-bold">
+			Liste des produits</h1>
+
+
+    {% if produits == [] %}
+		<div class="row justify-content-center">
+			<div class="col-12 col-md-8 bg-white p-4 m-0 text-primary">
+               <h4 class="text-black"> Aucuns résultats n'ont été trouvés pour votre recherche : {{query}}</h4>
+            </div>
+        </div>
+  
+    {% else %}
+
+		<div class="row justify-content-center">
+			<div class="col-12 col-md-8 bg-white p-4 m-0 text-primary">
+				<div class="table-responsive">
+					<table class="table table-hover">
+					
+                        {% for produit in produits %}
+                            <tr class="{{ cycle(['table-primary', 'table-secondary'], loop.index0) }}">
+                                <td>{{ produit.nom | capitalize }}</td>	
+                            </tr>
+                        {% endfor %}
+
+					</table>
+                </div>
+            </div>
+        </div>
+  
+    {% endif %}
+
+{% endblock %} 

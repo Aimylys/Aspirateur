@@ -37,6 +37,12 @@ class Produits
     #[ORM\OneToMany(mappedBy: 'produits', targetEntity: Ajouter::class)]
     private Collection $ajouters;
 
+    #[ORM\Column(length: 255)]
+    private ?string $categorie = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $scategorie = null;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
@@ -95,6 +101,7 @@ class Produits
 
         return $this;
     }
+    
 
     /**
      * @return Collection<int, User>
@@ -164,4 +171,29 @@ class Produits
 
         return $this;
     }
+
+    public function getCategorie(): ?string
+    {
+        return $this->categorie;
+    }
+
+    public function setCategorie(string $categorie): self
+    {
+        $this->categorie = $categorie;
+
+        return $this;
+    }
+
+    public function getScategorie(): ?string
+    {
+        return $this->scategorie;
+    }
+
+    public function setScategorie(string $scategorie): self
+    {
+        $this->scategorie = $scategorie;
+
+        return $this;
+    }
+    
 }
